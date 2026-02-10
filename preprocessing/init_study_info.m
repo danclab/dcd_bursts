@@ -7,7 +7,7 @@ study_info.task='comb';
 
 %% Specify Paths
 % Locate data on hard drive
-study_info.data_dir = '/home/bonaiuto/dcd_ross/data/';
+study_info.data_dir = '/home/bonaiuto/dcd_bursts/data/';
 
 %% Subject list
 study_info.participant_info=readtable([fullfile(study_info.data_dir, 'participants.tsv')],...

@@ -25,9 +25,9 @@ epoch_labels_2={'Kaleidoscope',	'ObserveFine', 'ObserveGross',	'ExecuteFine', 'E
 event_markers_2 = {'E  9','E 17','E 18','E 33','E 34','E 40'};
 
 % epoch length in seconds
-epoch_length_2 = [0 10];
+epoch_length_2 = [-8 15];
 
-% lower and upper voltage threshold (in mV)
+% lower and upper voltage threshold (in uV)
 volt_threshold = [-150 150];
 
 % list of frontal channels to check for epoch-level channel interpolation
@@ -121,6 +121,8 @@ for s_idx=1:size(study_info.participant_info,1)
     
     if exist([subject_output_data_dir filesep 'processed_data'], 'dir') == 0
         mkdir([subject_output_data_dir filesep 'processed_data'])
+    else
+        delete(fullfile(subject_output_data_dir, 'processed_data', '*'));
     end
     
     fprintf('\n\n\n*** Processing subject %s ***\n\n\n', subject);
@@ -176,6 +178,8 @@ for s_idx=1:size(study_info.participant_info,1)
     saveas(fig, fullfile(subject_output_data_dir,'01-initial_ch_locations.png'));
         
     %% Filter data
+%     EEG = pop_eegfiltnew(EEG, 'locutoff', highpass, 'hicutoff', lowpass);
+    
     % Calculate filter order using the formula: m = dF / (df / fs), where m = filter order,
     % df = transition band width, dF = normalized transition width, fs = sampling rate
     % dF is specific for the window type. Hamming window dF = 3.3
@@ -296,6 +300,9 @@ for s_idx=1:size(study_info.participant_info,1)
     %% STEP 8: Prepare data for ICA
     EEG_copy=EEG; % make a copy of the dataset
     EEG_copy = eeg_checkset(EEG_copy);
+    
+%     EEG_copy = pop_eegfiltnew(EEG_copy, 'locutoff', 1, 'hicutoff', 60);
+%     EEG_copy = pop_eegfiltnew(EEG_copy, 'locutoff', 1);
     
     % Perform 1Hz high pass filter on copied dataset
     transband = 1;

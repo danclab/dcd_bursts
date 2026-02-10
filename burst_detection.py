@@ -134,6 +134,7 @@ def extract_bursts_single_trial(raw_trial, tf, times, search_freqs, band_lims, a
     while True:
         # Compute noise floor
         thresh = 2 * np.std(trial_tf_iter)
+        #thresh = 3 * np.std(trial_tf_iter)
 
         # Find peak
         [peak_freq_idx, peak_time_idx] = np.unravel_index(np.argmax(trial_tf_iter), trial_tf.shape)
